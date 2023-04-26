@@ -1,0 +1,8 @@
+datasets
+evaluate
+nltk
+pandas
+scikit-learn
+seqeval
+torch
+transformers
