@@ -98,20 +98,18 @@ def generate_dataset(tokens: list, ner_tags: list, val_split: float=0.2, random_
     train_dataset = dataset.select(train_indices)
     val_dataset = dataset.select(val_indices)
 
-    flat_ner_tags = [i for j in ner_tags for i in j]
     result = {
         "train": train_dataset,
         "val": val_dataset,
         "idx2tag": idx2tag,
         "tag2idx": tag2idx,
-        "names": sorted(set(flat_ner_tags))
+        "names": alltypes
     }
     return result
 
 
 def tokenize_and_align_labels(examples, tokenizer=None, model_name: str="bert-base-uncased"):
     if tokenizer is None:
-        model_name = "bert-base-uncased"
         tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     tokenized_inputs = tokenizer(examples["tokens"], truncation=True, is_split_into_words=True)
