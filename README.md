@@ -1,7 +1,7 @@
 
 sample training command
 ```
-python train.py -d "./assets/xml_data" --m "bert-base-uncased" --num-epochs 10 --val-split 0.2
+python train.py -d "./assets/xml_data" --model-name "bert-base-uncased" --num-epochs 10 --val-split 0.2
 ```
 
 

@@ -34,11 +34,14 @@ def compute_metrics(p):
 
 
 def run(data_dir: str, model_name: str="bert-base-uncased", output_dir: str="logs/", 
-        num_epochs: int=3, val_split: float=0.2, random_state: int=42, max_steps: int=1000):
+        num_epochs: int=3, val_split: float=0.2, random_state: int=42, max_steps: int=-1,
+        save_steps: int=100, eval_steps: int=100):
 
     tokens, tags = preprocess_xmls(data_dir)
 
     data = generate_dataset(tokens, tags, val_split=val_split, random_state=random_state)
+    print(data)
+
     idx2tag = data["idx2tag"]
     tag2idx = data["tag2idx"]
     train_dataset = data["train"]
@@ -66,8 +69,8 @@ def run(data_dir: str, model_name: str="bert-base-uncased", output_dir: str="log
         per_device_eval_batch_size=64,
         weight_decay=0.01,
         warmup_steps=500, 
-        eval_steps=100,
-        save_steps=100,
+        eval_steps=eval_steps,
+        save_steps=save_steps,
         evaluation_strategy="steps",
         load_best_model_at_end=True
     )
@@ -94,7 +97,9 @@ def parse_args():
     parser.add_argument("--num-epochs", type=int, default=3, help="number of epochs to train for")
     parser.add_argument("--val-split", type=float, default=0.2, help="percentage of data to use for validation")
     parser.add_argument("--random-state", type=int, default=42, help="random seed")
-    parser.add_argument("--max-steps", type=int, default=1000, help="max steps")
+    parser.add_argument("--max-steps", type=int, default=-1, help="max steps")
+    parser.add_argument("--eval-steps", type=int, default=100, help="interval for evaluating on validation set")
+    parser.add_argument("--save-steps", type=int, default=100, help="interval for saving model to output-dir")
 
     opt = parser.parse_args()
     return opt
