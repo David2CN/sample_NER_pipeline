@@ -3,7 +3,7 @@ import evaluate
 import numpy as np
 
 from pathlib import Path
-from utils import preprocess_xmls, preprocess_csv, generate_dataset, tokenize_and_align_labels
+from utils import preprocess_xmls, generate_dataset, tokenize_and_align_labels
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from transformers import DataCollatorForTokenClassification, EarlyStoppingCallback
 from transformers import Trainer, TrainingArguments
